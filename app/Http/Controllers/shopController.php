@@ -33,7 +33,7 @@ class shopController extends Controller
         if (!$q_maxPrice){
             $q_maxPrice=10;
         }
-        return view('shop',['shopName'=>$categoryName,'isCategory'=>true,'isCollection'=>false,'categories'=> $this->getCategories(),'collections'=> $this->geCollections(),'products'=>$this->getCategoryProducts($request,$categoryId),'brands'=>$this->getBrands(),'colors'=>$this->getColors(),'sizes'=>$this->getSizes(),'hasCart'=>$this->hasCart(),'order'=>$request->query("order"),'q_brands'=>$request->query("brands"),'q_sizes'=>$request->query("sizes"),'q_colors'=>$request->query("colors"),'q_maxPrice'=>$q_maxPrice]);
+        return view('shop',['shopName'=>$categoryName,'isCategory'=>true,'isCollection'=>false,'categories'=> $this->getCategories(),'collections'=> $this->geCollections(),'products'=>$this->getCategoryProducts($request,$categoryId),'brands'=>$this->getBrands(),'colors'=>$this->getColors(),'sizes'=>$this->getSizes(),'hasCart'=>$this->hasCart(),'order'=>$request->query("order"),'q_brands'=>$request->query("brands"),'q_sizes'=>$request->query("sizes"),'q_colors'=>$request->query("colors"),'q_maxPrice'=>$q_maxPrice,'search_value'=>$request->query("search_value")]);
     }
     public function brandIndex(Request $request,$brandId,$brandName)
     {

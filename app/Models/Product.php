@@ -79,12 +79,12 @@ class Product extends Model
     }
 
 
-    protected function userId(): Attribute
+   /* protected function userId(): Attribute
     {
         return Attribute::make(
             set: \Auth::user()->id,
         );
-    }
+    }*/
     /**
      * The Model __construct to set user type to a customer when insert data using customer Resource form.
      *

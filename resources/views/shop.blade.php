@@ -136,6 +136,10 @@
         $("#frmFilter").submit();
     });
 
+    $("#search_btn").on("click",function(){
+         $("#search_value").val($("#search_field").val());
+           $("#frmFilter").submit();
+    });
     function filterProductsByCategory(Category){
         var Categories = "";
         $("input[name='categories']:checked").each(function(){

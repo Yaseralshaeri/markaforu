@@ -99,7 +99,7 @@ class ProductRepository implements \App\interfaces\ProductInterface
 
         $order= $this->sortingProduct($request)->getData();
         $q_brands = $request->query("brands");
-
+        $searched_value = $request->query("search_value");
         $q_sizes = $request->query("sizes");
         $q_colors = $request->query("colors");
         $q_maxPrice=$request->query("maxPrice");
@@ -113,14 +113,16 @@ class ProductRepository implements \App\interfaces\ProductInterface
             'images.color'=>function($query){
                 $query->select('color_hex','id');
             }
-        ])->where(function($query) use($q_brands){
+        ])->where(function($query) use($searched_value){
+                $query->where('tags','LIKE','%'.$searched_value.'%')->orWhereRaw("'".$searched_value."'=''");})
+            ->where(function($query) use($q_brands){
                    $query->whereIn('brand_id',explode(',',$q_brands))->orWhereRaw("'".$q_brands."'=''");})
           ->where(function($query) use($q_sizes){
                 $query->whereRelation('sizes','size_id',explode(',',$q_sizes))->orWhereRaw("'".$q_sizes."'=''");})
             ->where(function($query) use($q_colors){
                 $query->whereRelation('images','color_id',explode(',',$q_colors))->orWhereRaw("'".$q_colors."'=''");})
             ->where('new_price','>', intval($q_maxPrice))
-          ->whereRelation('categories','category_id','=',$categoryId)->take(100)->select(['id','product_name','old_price','new_price','keyword','brand_id'])->orderBy($order->o_column,$order->o_order);
+          ->whereRelation('categories','category_id','=',$categoryId)->take(100)->select(['id','product_name','old_price','new_price','keyword','brand_id','tags'])->orderBy($order->o_column,$order->o_order);
 
     }
 
