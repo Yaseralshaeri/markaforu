@@ -109,6 +109,14 @@
 <!--===============================================================================================-->
 </body>
 @yield('cartRequestScripts')
+
+<script>
+    $("#topSearch").on("click",function(){
+        $("#top_search_value").val($("#top_search_field").val());
+        $('#topfrmSearch').attr('action', '/char/search/'+$("#top_search_field").val());
+        $("#topfrmSearch").submit();
+    });
+</script>
 <script>
     /*function getCartProducts()
     {

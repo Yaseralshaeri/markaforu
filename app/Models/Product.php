@@ -33,6 +33,8 @@ class Product extends Model
     protected $casts = [
         'tags' => 'array',
     ];
+
+
     public function images(): HasMany
     {
         return $this->hasMany(Image::class);
@@ -113,12 +115,21 @@ class Product extends Model
      * commented recently  for editing
      */
 
+   /* public function scopeSearchProducts(Builder $query,$searched_value)
+    {
+        $query
+            ->orderBy('created_at',direction:'asc');
+    }*/
     public function scopeNewProducts(Builder $query)
     {
         $query
             ->orderBy('created_at',direction:'asc');
     }
-
+    public function scopeDiscounts(Builder $query)
+    {
+        $query
+            ->orderBy('created_at',direction:'asc');
+    }
     public function scopeRecommendedProducts(Builder $query)
     {
         $query

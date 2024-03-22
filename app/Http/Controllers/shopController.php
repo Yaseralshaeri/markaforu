@@ -33,7 +33,7 @@ class shopController extends Controller
         if (!$q_maxPrice){
             $q_maxPrice=10;
         }
-        return view('shop',['shopName'=>$categoryName,'isCategory'=>true,'isCollection'=>false,'categories'=> $this->getCategories(),'collections'=> $this->geCollections(),'products'=>$this->getCategoryProducts($request,$categoryId),'brands'=>$this->getBrands(),'colors'=>$this->getColors(),'sizes'=>$this->getSizes(),'hasCart'=>$this->hasCart(),'order'=>$request->query("order"),'q_brands'=>$request->query("brands"),'q_sizes'=>$request->query("sizes"),'q_colors'=>$request->query("colors"),'q_maxPrice'=>$q_maxPrice,'search_value'=>$request->query("search_value")]);
+        return view('shop',['shopName'=>$categoryName,'isCategory'=>true,'isCollection'=>false,'categories'=> $this->getCategories(),'collections'=> $this->geCollections(),'products'=>$this->getCategoryProducts($request,$categoryId),'brands'=>$this->getBrands(),'colors'=>$this->getColors(),'sizes'=>$this->getSizes(),'hasCart'=>$this->hasCart(),'order'=>$request->query("order"),'q_brands'=>$request->query("brands"),'q_sizes'=>$request->query("sizes"),'q_colors'=>$request->query("colors"),'q_maxPrice'=>$q_maxPrice,]);
     }
     public function brandIndex(Request $request,$brandId,$brandName)
     {
@@ -50,7 +50,7 @@ class shopController extends Controller
         if (!$q_maxPrice){
             $q_maxPrice=10;
         }
-        return view('shop',['shopName'=>$advertisementName,'isCategory'=>false,'isCollection'=>true,'categories'=> $this->getCategories(),'collections'=> $this->geCollections(),'products'=>$this->getAdvertisementProducts($request,$advertisementId),'brands'=>$this->getBrands(),'colors'=>$this->getColors(),'sizes'=>$this->getSizes(),'hasCart'=>$this->hasCart(),'order'=>$request->query("order"),'q_brands'=>$request->query("brands"),'q_categories'=>$request->query("Categories"),'q_sizes'=>$request->query("sizes"),'q_colors'=>$request->query("colors"),'q_maxPrice'=>$q_maxPrice]);
+        return view('shop',['shopName'=>$advertisementName,'isCategory'=>false,'isCollection'=>true,'categories'=> $this->getCategories(),'collections'=> $this->geCollections(),'products'=>$this->getAdvertisementProducts($request,$advertisementId),'brands'=>$this->getBrands(),'colors'=>$this->getColors(),'sizes'=>$this->getSizes(),'hasCart'=>$this->hasCart(),'order'=>$request->query("order"),'q_brands'=>$request->query("brands"),'q_categories'=>$request->query("Categories"),'q_sizes'=>$request->query("sizes"),'q_colors'=>$request->query("colors"),'q_maxPrice'=>$q_maxPrice,'search_value'=>$request->query("search_value")]);
     }
 
     public function Index(Request $request,$characteristicScope,$characteristicName)
@@ -59,7 +59,7 @@ class shopController extends Controller
         if (!$q_maxPrice){
             $q_maxPrice=10;
         }
-        return view('shop',['shopName'=>$characteristicName,'isCategory'=>false,'isCollection'=>true,'categories'=> $this->getCategories(),'collections'=> $this->geCollections(),'products'=>$this->getCollectionsProducts($request,$characteristicScope),'brands'=>$this->getBrands(),'colors'=>$this->getColors(),'sizes'=>$this->getSizes(),'hasCart'=>$this->hasCart(),'order'=>$request->query("order"),'q_brands'=>$request->query("brands"),'q_categories'=>$request->query("Categories"),'q_sizes'=>$request->query("sizes"),'q_colors'=>$request->query("colors"),'q_maxPrice'=>$q_maxPrice]);
+        return view('shop',['shopName'=>$characteristicName,'isCategory'=>false,'isCollection'=>true,'categories'=> $this->getCategories(),'collections'=> $this->geCollections(),'products'=>$this->getCollectionsProducts($request,$characteristicScope),'brands'=>$this->getBrands(),'colors'=>$this->getColors(),'sizes'=>$this->getSizes(),'hasCart'=>$this->hasCart(),'order'=>$request->query("order"),'q_brands'=>$request->query("brands"),'q_categories'=>$request->query("Categories"),'q_sizes'=>$request->query("sizes"),'q_colors'=>$request->query("colors"),'q_maxPrice'=>$q_maxPrice,'search_value'=>$request->query("search_value")]);
     }
 
 

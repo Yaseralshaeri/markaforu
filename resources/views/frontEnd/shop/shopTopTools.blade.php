@@ -3,7 +3,7 @@
     <div class="col-xl-3 ">
         <div class="input-group w-100 mx-auto d-flex">
             <input type="search" id="search_field" class="form-control p-3 rtl" placeholder="ابحث هتا"
-                   aria-describedby="search-icon-1" @if($search_value) value="{{$search_value}}" @endif >
+                   aria-describedby="search-icon-1" @if($isCollection) value="{{$search_value}}" @endif >
             <span id="search_btn"  class="input-group-text p-3"><i
                     class="fa fa-search"></i></span>
         </div>
@@ -23,7 +23,6 @@
     </div>
 </div>
 <form id="frmFilter" method="GET">
-    <input type="hidden" id="search_value" name="search_value" value="{{$search_value}}" />
     <input type="hidden" id="order" name="order" value="{{$order}}" />
     @if($isCategory)
         <input type="hidden" id="brands" name="brands" value="{{$q_brands}}" />
@@ -39,3 +38,6 @@
 
 </form>
 
+<form id="frmSearch" method="GET" >
+    <input type="hidden"  id="search_value" name="search_value" value="@if($isCollection) {{$search_value}} @endif" />
+</form>

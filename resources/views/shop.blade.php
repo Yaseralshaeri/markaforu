@@ -129,6 +129,13 @@
         });
     });
 </script>
+<script>
+    $("#topSearch").on("click",function(){
+        $("#top_search_value").val($("#top_search_field").val());
+        $('#topfrmSearch').attr('action', '/char/search/'+$("#top_search_field").val());
+        $("#topfrmSearch").submit();
+    });
+</script>
 <!--===============================================================================================-->
 <script>
     $("#orderby").on("change",function(){
@@ -138,7 +145,8 @@
 
     $("#search_btn").on("click",function(){
          $("#search_value").val($("#search_field").val());
-           $("#frmFilter").submit();
+        $('#frmSearch').attr('action', '/char/search/'+$("#search_field").val());
+        $("#frmSearch").submit();
     });
     function filterProductsByCategory(Category){
         var Categories = "";

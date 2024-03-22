@@ -23,7 +23,7 @@
     </div>
     <div class="container px-0">
         <nav class="navbar navbar-light bg-white navbar-expand-xl">
-            <a href="index.html" class="navbar-brand">
+            <a href="/" class="navbar-brand">
                 <h1 class="text-dark display-6">
                     <i class="fas  text-secondary fa-glasses me-2"></i>
                     ROSS Glasses
@@ -52,14 +52,14 @@
                         <div class="dropdown-menu m-0 bg-secondary rounded-0 rtl">
                             <a href="/char/NewProducts/جديدنا" class="dropdown-item"> جديد</a>
                             <a href="/char/TopSoledProducts/الاكثر مبيعا" class="dropdown-item"> الاكثر مبيعا</a>
-                            <a href=/char/RecommendedProducts/موصىبه" class="dropdown-item">موصى به</a>
+                            <a href="/char/RecommendedProducts/موصى به" class="dropdown-item">موصى به</a>
                         @foreach ($collections as  $collection)
                                 <a href="/brand/{{$collection->id}}/{{$collection->collection_name}}" class="dropdown-item">{{$collection->collection_name}}</a>
                             @endforeach
                         </div>
                     </div>
-                    <a href="shop.html" class="nav-item nav-link text-danger"> تخفيضات</a>
-                    <a href="contact.html" class="nav-item nav-link">تواصل معنا</a>
+                    <a href="/char/Discounts/تخفيضات" class="nav-item nav-link text-danger"> تخفيضات</a>
+                    <a href="/contact.html" class="nav-item nav-link">تواصل معنا</a>
                 </div>
                 <div class="d-flex m-3 me-0">
                     <button
@@ -94,12 +94,19 @@
             </div>
             <div class="modal-body d-flex align-items-center">
                 <div class="input-group w-75 mx-auto d-flex">
-                    <input type="search" class="form-control p-3" placeholder="ابحث هنا"
+                    <input type="search" id="top_search_field"  class="form-control p-3" placeholder="ابحث هنا"
                            aria-describedby="search-icon-1">
-                    <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
+                    <span id="topSearch"  class="input-group-text p-3"><i class="fa fa-search"></i></span>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
+<form id="topfrmSearch" method="GET" >
+    <input type="hidden"  id="top_search_value" name="search_value" value="" />
+</form>
 <!-- Modal Search End -->
+
+
