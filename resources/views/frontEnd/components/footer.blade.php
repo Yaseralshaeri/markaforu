@@ -3,8 +3,8 @@
 
 <!-- cart  icon  -->
 
-<a href="#" class="back-to-top" onclick="getCartProducts()" >
-    <i class="fas fa-shopping-cart text-secondary  fa-2x" ></i>
+<a href="/cart"  class="back-to-top " >
+    <i  class="fas fa-shopping-cart text-secondary  fa-2x" ></i>
     <span
         class="position-absolute bg-danger rounded-circle d-flex align-items-center justify-content-center text-white px-1"
         style="top: -5px; left: 15px; height: 20px; min-width: 20px;" id="cart_count_footer">{{$hasCart}}</span>

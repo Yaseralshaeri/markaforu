@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\shopController;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use App\Http\Traits\productTrait;
@@ -76,8 +77,45 @@ Route::get('/order/{order}',[\App\Http\Controllers\OrderController::class,'index
 
 
 Route::get('/r',function () {
-    // Cookie::queue(Cookie::make( 'customer_id', uniqid(),18000));
-   //return \request()->cookie('customer_id');
+
+    /*$cookie_name = "user";
+    $cookie_value = "John Doe";
+    setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1 day
+
+
+    if (!isset($_COOKIE[$cookie_name])) {
+        echo "Cookie named '" . $cookie_name . "' is not set!";
+    } else {
+        echo "Cookie '" . $cookie_name . "' is set!<br>";
+        echo "Value is: " . $_COOKIE[$cookie_name];
+    }*/
+
+
+
+//    Cookie::queue(Cookie::make( 'customer_id', uniqid(),1));
+   // return \request()->cookie('customer_id');
+
+  /*  if(!\request()->hasCookie('customer_id')){
+        $customer_id=uniqid();
+        Cookie::queue(Cookie::make( 'customer_id', $customer_id,1));
+        $cart= new \App\Models\Cart();
+        $cart->customer_id=$customer_id;
+        $cart->save();
+        return $cart->id;
+    }
+    else{
+        $cart=\App\Models\Cart::where('customer_id','=',\request()->cookie('customer_id'))->first();
+        return  $cart->id;
+    }*/
+    if(!\request()->hasCookie('customer_id')) {
+
+        return 1;
+    }
+    else{
+
+
+   return \request()->cookie('customer_id');
+    }
 
 });
 

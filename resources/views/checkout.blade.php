@@ -53,7 +53,35 @@
 
 <!-- Single Product Start -->
 
-        @include('frontEnd.checkout.checkout')
+<div class="container"></div>,
+<div class="container-fluid  py-5">
+    <div class="container">
+        <div class="progress px-1" style="height: 3px;">
+            <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <div class="step-container d-flex justify-content-between">
+            <div class="step-circle" onclick="displayStep(1)">1</div>
+            <div class="step-circle" onclick="displayStep(2)">2</div>
+            <div class="step-circle" onclick="displayStep(3)">3</div>
+        </div>
+    </div>
+    <div id="multi-step-form">
+        <div class="row step step-1" >
+            @include('frontEnd.checkout.cartSummary')
+        </div>
+        <div class=" step step-2">
+            @include('frontEnd.checkout.checkout')
+        </div>
+        <div class=" step step-3 " >
+            @include('frontEnd.checkout.shippingCompanies')
+
+            <div class="container col-md-12 d-flex justify-content-between">
+                <button   type="submit" class="btn border-dark prev-step py-2 px-4 text-uppercase  next-step text-dark">السابق</button>
+                <button   type="submit" class="btn border-success py-2 px-4 text-uppercase w- next-step text-success">  اتمام عملية الطلب والدفع </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- FOOTER -->
 @include('frontEnd.components.footer')
@@ -63,14 +91,6 @@
 
 
 
-
-<!-- cart  icon  -->
-<a href="#" class="back-to-top" data-bs-toggle="modal" data-bs-target="#myCart">
-    <i class="fas fa-shopping-cart text-secondary  fa-2x" ></i>
-    <span
-        class="position-absolute bg-danger rounded-circle d-flex align-items-center justify-content-center text-white px-1"
-        style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
-</a>
 <!-- JavaScript Libraries -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -108,6 +128,51 @@
 <!--===============================================================================================-->
 </body>
 
+<script>var currentStep = 1;
+    var updateProgressBar;
+
+    function displayStep(stepNumber) {
+        if (stepNumber >= 1 && stepNumber <= 3) {
+            $(".step-" + currentStep).hide();
+            $(".step-" + stepNumber).show();
+            currentStep = stepNumber;
+            updateProgressBar();
+        }
+    }
+
+    $(document).ready(function() {
+        $('#multi-step-form').find('.step').slice(1).hide();
+
+        $(".next-step").click(function() {
+            if (currentStep < 3) {
+                $(".step-" + currentStep).addClass("animate__animated animate__fadeOutLeft");
+                currentStep++;
+                setTimeout(function() {
+                    $(".step").removeClass("animate__animated animate__fadeOutLeft").hide();
+                    $(".step-" + currentStep).show().addClass("animate__animated animate__fadeInRight");
+                    updateProgressBar();
+                }, 500);
+            }
+        });
+
+        $(".prev-step").click(function() {
+            if (currentStep > 1) {
+                $(".step-" + currentStep).addClass("animate__animated animate__fadeOutRight");
+                currentStep--;
+                setTimeout(function() {
+                    $(".step").removeClass("animate__animated animate__fadeOutRight").hide();
+                    $(".step-" + currentStep).show().addClass("animate__animated animate__fadeInLeft");
+                    updateProgressBar();
+                }, 500);
+            }
+        });
+
+        updateProgressBar = function() {
+            var progressPercentage = ((currentStep - 1) / 2) * 100;
+            $(".progress-bar").css("width", progressPercentage + "%");
+        }
+    });
+</script>
 
 <script>
     $("#topSearch").on("click",function(){

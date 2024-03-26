@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Traits\cartCookieTrait;
 use App\interfaces\ProductInterface;
 use App\Models\Brand;
 use App\Models\Cart;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Validator;
 
 class CartController extends Controller
 {
+    use cartCookieTrait;
 
     private $productRepository;
 
@@ -25,7 +27,7 @@ class CartController extends Controller
      */
     public function index()
     {
-        return view('cart',['categories'=> $this->getCategories(),'collections'=> $this->geCollections(),'brands'=>$this->getBrands(),'hasCart'=>$this->hasCart(),'getCartItems'=>$this->getCartItemsJs()]);
+        return view('cart',['categories'=> $this->getCategories(),'recommendedProducts'=>$this->getRecommendedProducts(),'collections'=> $this->geCollections(),'brands'=>$this->getBrands(),'hasCart'=>$this->hasCart(),'getCartItems'=>$this->getCartItemsJs(),'getCart'=>$this->getCartItems()]);
 
     }
     public function getBrands():\Illuminate\Database\Eloquent\Collection
@@ -36,6 +38,19 @@ class CartController extends Controller
     {
         return  \App\Models\Collection::get(['collection_name','id']);
     }
+
+    public function getRecommendedProducts()
+    {
+        /* return Product::with([
+         'images'=>function($query){
+             $query->select('product_id','path')
+                 ->where('showed','=','1');
+         }
+     ])->take(6)->select(['id','product_name','old_price','new_price','keyword'])->paginate(3);*/
+        return $this->productRepository->getProducts('RecommendedProducts')->paginate(3);
+
+    }
+
     public function getCategories()
     {
 
@@ -49,7 +64,7 @@ class CartController extends Controller
 
     public function getCartItems()
     {
-        $cart= \App\Models\Cart::with([
+        return  \App\Models\Cart::with([
             'cartItems'=>function($query){
                 $query->select('cart_id','product_id','id','totally','quantity','price','item_size','item_color');
             },
@@ -58,13 +73,12 @@ class CartController extends Controller
             },
             'cartItems.product.images'=>function($query){
                 $query->select('product_id','path')
-                ;
+                    ->where('showed','=','1');
+
             },
-        ])->where('customer_id','=',\request()->cookie('customer_id'))->first();
-        return response()->json([
-            'cart'=>$cart,
-        ]);
+        ])->where('customer_id','=',\request()->cookie('customer_id'))->get();
     }
+
     public function getCartItemsJs()
     {
         return \App\Models\Cart::with([
@@ -85,7 +99,7 @@ class CartController extends Controller
 
     public function getCart()
     {
-        $cart=Cart::where('customer_id','=',\request()->cookie('customer_id'))->first();
+        $cart=Cart::latest()->first();
         return  $cart->id;
 
     }
@@ -104,6 +118,22 @@ class CartController extends Controller
         $cart->has_discount=false;
         $cart->save();
     }
+    public function cartCookie()
+    {
+        if(!\request()->hasCookie('customer_id')){
+            $customer_id=uniqid();
+            Cookie::queue(Cookie::make( 'customer_id', $customer_id,40000));
+            $cart= new Cart();
+            $cart->customer_id=$customer_id;
+            $cart->save();
+            return $cart->id;
+        }
+        else{
+
+            $cart=Cart::latest()->first();// where('customer_id','=',\request()->cookie('customer_id'))->first();
+            return  $cart->id;
+        }
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -112,31 +142,8 @@ class CartController extends Controller
     {
 
 
-        $validator = Validator::make($request->all(), [
-            'quantity' => 'min:1',
-            'item_color' => 'required',
-            'item_size' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => 504,
-                'message' => $validator->errors()
-            ]);
-        }
-
-        // Retrieve the validated input...
-        $validated = $validator->validated();
-
-        if(!$request->hasCookie('customer_id')){
-            Cookie::queue(Cookie::make( 'customer_id', uniqid(),400));
-            $cart= new Cart();
-            $cart->customer_id=$request->cookie('customer_id');
-            $cart->save();
-        }
-
      $items=new Cart_item();
-     $items->cart_id=$this->getCart();
+     $items->cart_id=$this->cartCookie();
      $items->price=$request->price;
      $items->quantity=$request->quantity;
      $items->totally=$request->price*$request->quantity;
@@ -276,17 +283,18 @@ class CartController extends Controller
     }
     public function hasCart()
     {
-        $cart=\App\Models\Cart::where('customer_id','=',\request()->cookie('customer_id'))->first()->loadCount('cartItems');
-        return  $cart->cart_items_count;
-    }
-
-    public function getCartCount()
-    {
-        $cart=\App\Models\Cart::where('customer_id','=',\request()->cookie('customer_id'))->first()->loadCount('cartItems');
-        if ($cart->cart_items_count>0){
+        $cart=\App\Models\Cart::latest()->first();
+        if ($cart){
+            $cart=$cart->loadCount('cartItems');
             return  $cart->cart_items_count;
 
         }
         return  0;
+    }
+
+    public function getCartCount()
+    {
+
+        return  $this->hasCart();
     }
 }

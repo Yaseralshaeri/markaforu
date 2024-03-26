@@ -57,15 +57,13 @@
             <div class="col-lg-12">
                 @include('frontEnd.shop.shopTopTools')
                 <div class="row g-4 ">
-                    <div class="col-lg-9">
-                        @include('frontEnd.shop.shopProducts')
-                    </div>
-                    <div class="col-lg-3 ">
+                    <div class="col-lg-3  " id="filter-collapseOne" aria-labelledby="filter-accordion"   >
                         <div class="row g-4">
-                            @include('frontEnd.shop.shopCategories')
-                            @include('frontEnd.shop.shopPrice')
                             @include('frontEnd.shop.shopBrands')
                         </div>
+                    </div>
+                    <div class="col-lg-9">
+                        @include('frontEnd.shop.shopProducts')
                     </div>
                 </div>
             </div>

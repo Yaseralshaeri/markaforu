@@ -32,7 +32,6 @@ class indexController extends Controller
      */
     public function index()
     {
-        //connectify('success', 'Connection Found', 'Success Message Here');
          return view('index',['categories'=> $this->getCategories(),'collections'=> $this->geCollections(),'newProducts'=>$this->getNewProducts(),'heroCarousel'=>$this->getIndexHero(),'indexAds'=>$this->getIndexTopAd(),'categoryNewProducts'=>$this->getCategoryNewProducts(),'specialProducts'=>$this->getSpecialProducts(),'indexBanner'=>$this->getIndexBanner(),'indexBannerAd'=>$this->getIndexBannerAd(),'topSoldProducts'=>$this->getTopSoldProducts(),'recommendedProducts'=>$this->getRecommendedProducts(),'brands'=>$this->getBrands(),'hasCart'=>$this->hasCart()]);
     }
 
@@ -143,8 +142,9 @@ class indexController extends Controller
 
     public function hasCart()
     {
-        $cart=\App\Models\Cart::where('customer_id','=',\request()->cookie('customer_id'))->first()->loadCount('cartItems');
-      if ($cart->cart_items_count>0){
+        $cart=\App\Models\Cart::latest()->first();
+      if ($cart){
+        $cart=$cart->loadCount('cartItems');
           return  $cart->cart_items_count;
 
       }

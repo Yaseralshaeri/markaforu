@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('payment_method_id')->nullable();
-            $table->foreign('payment_method_id')->references('id')->on('payment_methods');
-            $table->foreignId('address_id')->constrained();
-            $table->string('current_status')->default('waiting');
-            $table->float('order_coast');
+            $table->string('comment_tittle');
             $table->foreignId('customer_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignId('product_id')->nullable()->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('comments');
     }
 };

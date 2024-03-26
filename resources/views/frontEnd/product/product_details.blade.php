@@ -72,15 +72,14 @@
                         @endforeach
                     </ul>
                 </div>
-                <div class="filter__list widget_size d-flex align-items-center">
+                <div class="filter__list widget_color d-flex align-items-center">
                     <h3>اختيار المقاس</h3>
                     <ul>
                         @foreach ($product->sizes as $productSize)
-                            <li class="m-1"><input  type="radio" name="product_size" data_value="{{$productSize->size}}"><a><span class="checkmark">{{$productSize->size}}</span></a></li>
-                        <li>
-
-                           {{-- <input id="product_size"  data_value="{{$product->size}}" >{{$productSize->size}} </input>--}}
-                        </li>
+                         <li class="m-1">
+                             <input type="radio"  class="p-4" name="product_size"  data_value="{{$productSize->size}}">
+                             <span class="checkmark text-center pt-1"  style="width: 40px;height: 40px;background-color: #f1f1f1;color: #999999">{{$productSize->size}}</span>
+                         </li>
                         @endforeach
                     </ul>
                 </div>

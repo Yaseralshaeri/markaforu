@@ -67,8 +67,8 @@
                         data-bs-toggle="modal" data-bs-target="#searchModal"><i
                             class="fas fa-search text-secondary"></i>
                     </button>
-                    <a href="#" class="position-relative me-4 my-auto" data-bs-toggle="modal"
-                       data-bs-target="#myCart">
+                    <a href="/cart" class="position-relative me-4 my-auto"
+                      >
                         <i class="fas fa-shopping-cart text-secondary  fa-2x"></i>
                         <span  id="cart_count_header" class="position-absolute bg-primary rounded-circle d-flex align-items-center justify-content-center text-secondary px-1"
                                 style="top: -5px; left: 15px; height: 20px; min-width: 20px;">{{$hasCart}}</span>

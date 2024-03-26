@@ -1,25 +1,31 @@
 @yield('shopTopTools')
 <div class="row g-4 ltr">
-    <div class="col-xl-3 ">
+    <div class="col-xl-5 col-md-5 col-12 ltr">
         <div class="input-group w-100 mx-auto d-flex">
-            <input type="search" id="search_field" class="form-control p-3 rtl" placeholder="ابحث هتا"
+            <input type="search" id="search_field" class="form-control p- rtl" placeholder="ابحث هتا"
                    aria-describedby="search-icon-1" @if($isCollection) value="{{$search_value}}" @endif >
-            <span id="search_btn"  class="input-group-text p-3"><i
+            <span id="search_btn"  class="input-group-text p-"><i
                     class="fa fa-search"></i></span>
         </div>
     </div>
-    <div class="col-6"></div>
-    <div class="col-xl-3 rtl">
-        <div class="bg-light pe-3 py-3 rounded d-flex justify-content-between mb-4">
-            <label for="orderby">ترتيب افتراضي:</label>
-            <select class="form-select border-0 form-select-sm bg-light ms-3" name="orderby" id="orderby" >
-                <option value="-1" {{ $order==-1? 'selected':''}}>افتراضي</option>
-                <option value="1" {{ $order==1? 'selected':''}}>جديد</option>
-                <option value="2" {{ $order==2? 'selected':''}}>من الاقدم الى الاحدث</option>
-                <option value="3" {{ $order==3? 'selected':''}}>السعر من الاكثر الى الاقل</option>
-                <option value="4" {{ $order==4? 'selected':''}}>السعر من الاكثر الى الاقل </option>
-            </select>
+    <div class="col-lg-4 col-md-5 col-8  rtl mb-4">
+        <div class="row mb-3 ">
+            <label class="col-4  ps-0 pe-2 col-form-label">ترتيب المنتجات:</label>
+            <div class="col-8">
+                <select class="form-select" name="orderby" id="orderby"  aria-label="Default select example">
+                    <option value="-1" {{ $order==-1? 'selected':''}}>افتراضي</option>
+                    <option value="1" {{ $order==1? 'selected':''}}>جديد</option>
+                    <option value="2" {{ $order==2? 'selected':''}}>من الاقدم الى الاحدث</option>
+                    <option value="3" {{ $order==3? 'selected':''}}>السعر من الاكثر الى الاقل</option>
+                    <option value="4" {{ $order==4? 'selected':''}}>السعر من الاكثر الى الاقل </option>
+                </select>
+            </div>
         </div>
+    </div>
+    <div class="col-md-2 col-4 rtl"  data-bs-toggle="collapse" data-bs-target="#filter-collapseOne" aria-expanded="false" aria-controls="filter-collapseOne">
+        <span class="fa fa-bars fa-2x text-dark"></span>
+        <label class="fs-5  px-2 " style="line-height: 0;">            فلترة</label>
+
     </div>
 </div>
 <form id="frmFilter" method="GET">

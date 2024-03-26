@@ -59,7 +59,8 @@
 
                     });
                     $.each(response.product[0].sizes, function (key, item) {
-                        product_size+='<li class="m-1"><input type="radio" name="product_size" data_value="'+item.size+'"><a><span class="checkmark">'+item.size+'</span></a></li>';
+
+                        product_size+='<li class="m-1"><input type="radio"  class="p-4" name="product_size" data_value="'+item.size+'"><span class="checkmark text-center pt-1"  style="width: 40px;height: 40px;background-color: #f1f1f1;color: #999999">'+item.size+'</span></li>';
 
                     });
                     product_imgs +=' </div>';
@@ -91,9 +92,9 @@
                           <h3>اختيار اللون </h3>\
                             <ul class="mt-2">'+product_colors+'</ul>\
                         </div>\
-                        <div class="filter__list widget_size d-flex align-items-center">\
+                        <div class="filter__list widget_color d-flex align-items-center">\
                             <h3>اختيار المقاس </h3>\
-                            <ul>'+product_size+'</ul>\
+                            <ul class="mt-2">'+product_size+'</ul>\
                         </div>\
                     </div>\
                     <div class="d-flex ">\
