@@ -21,6 +21,7 @@ class shopController extends Controller
 
     public function __construct(ProductInterface $productRepository)
     {
+
         $this->productRepository=$productRepository;
     }
 
