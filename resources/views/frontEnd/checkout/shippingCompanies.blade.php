@@ -3,33 +3,40 @@
 <div class="container py-5">
     <h1 class="mb-4">شركة الشحن </h1>
         <div  style="padding-left: 0.5px;padding-right: 0.5px">
-                 <div class="cart-totally rounded my-4 px-md-5">
-                     <fieldset class="row mb-3 p-5">
-                         <legend class="col-form-label col-sm-2 pt-0">Radios</legend>
-                         <div class="col-sm-10 ">
-                             <div class="form-check p-1">
-                                 <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
-                                 <label class="form-check-label  " for="gridRadios1">
-                                     First radio
-                                 </label>
-                                 <span class="form-check-label text-danger font-sans px-3" for="gridRadios1">
-                                     20 ر.س
-                                 </span>
-                             </div>
-                             <div class="form-check p-1" >
-                                 <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-                                 <label class="form-check-label" for="gridRadios2">
-                                     Second radio
-                                 </label>
-                             </div>
-                             <div class="form-check p-1">
-                                 <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios" value="option" disabled>
-                                 <label class="form-check-label" for="gridRadios3">
-                                     Third  radio
-                                 </label>
-                             </div>
-                         </div>
-                     </fieldset>
+            <div class="cart-totally rounded py-5 ltr ">
+                <section>
+                    <div>
+                        <input class="input-shipping" type="radio" id="control_01" name="select" value="1" checked>
+                        <label for="control_01">
+                            <h2>Pfft</h2>
+                            <p>Awww, poor baby. Too afraid of the scary game sprites? I laugh at you.</p>
+                        </label>
+                    </div>
+                    <div>
+                        <input class="input-shipping" type="radio" id="control_02" name="select" value="2">
+                        <label for="control_02">
+                            <h2>Wannabe</h2>
+                            <p>You're not a gaming God by any stretch of the imagination.</p>
+                        </label>
+                    </div>
+                    <div>
+                        <input class="input-shipping" type="radio" id="control_03" name="select" value="3">
+                        <label for="control_03">
+                            <h2>Daaamn</h2>
+                            <p>Now we're talking. It's gettin' a bit hairy out there in game land.</p>
+                        </label>
+                    </div>
+                    <div>
+                        <input class="input-shipping" type="radio" id="control_05" name="select" value="5">
+                        <label for="control_05">
+                            <h2>Suicidal</h2>
+                            <p>You will not live. Strap in and write a heart-felt letter to your loved ones.</p>
+                        </label>
+                    </div>
+                </section>
+            </div>
+
+            <div class="cart-totally rounded my-4 px-md-5">
                         <div class="p-4">
                             <h1 class="display-6 mb-4">السلة <span class="fw-normal">اجمالي</span></h1>
                             <div class="d-flex justify-content-between mb-4">

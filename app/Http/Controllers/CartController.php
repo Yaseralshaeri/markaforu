@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Traits\cartCookieTrait;
 use App\interfaces\ProductInterface;
 use App\Models\Brand;
 use App\Models\Cart;
@@ -14,7 +13,6 @@ use Illuminate\Support\Facades\Validator;
 
 class CartController extends Controller
 {
-    use cartCookieTrait;
 
     private $productRepository;
 
@@ -76,7 +74,7 @@ class CartController extends Controller
                     ->where('showed','=','1');
 
             },
-        ])->where('customer_id','=',\request()->cookie('customer_id'))->get();
+        ])->where('customer_id','=',\request()->session()->get('customer_id'))->get();
     }
 
     public function getCartItemsJs()
@@ -93,13 +91,13 @@ class CartController extends Controller
 
                 ;
             },
-        ])->where('customer_id','=',\request()->cookie('customer_id'))->get();
+        ])->where('customer_id','=',\request()->session()->get('customer_id'))->get();
 
     }
 
     public function getCart()
     {
-        $cart=Cart::latest()->first();
+        $cart=Cart::where('customer_id','=',\request()->session()->get('customer_id'))->first();
         return  $cart->id;
 
     }
@@ -118,22 +116,7 @@ class CartController extends Controller
         $cart->has_discount=false;
         $cart->save();
     }
-    public function cartCookie()
-    {
-        if(!\request()->hasCookie('customer_id')){
-            $customer_id=uniqid();
-            Cookie::queue(Cookie::make( 'customer_id', $customer_id,40000));
-            $cart= new Cart();
-            $cart->customer_id=$customer_id;
-            $cart->save();
-            return $cart->id;
-        }
-        else{
 
-            $cart=Cart::latest()->first();// where('customer_id','=',\request()->cookie('customer_id'))->first();
-            return  $cart->id;
-        }
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -141,9 +124,14 @@ class CartController extends Controller
     public function store(Request $request)
     {
 
-
+        if(!\request()->session()->has('customer_id')) {
+            \request()->session()->put('customer_id', uniqid());
+            $cart= new Cart();
+            $cart->customer_id=\request()->session()->get('customer_id');
+            $cart->save();
+        }
      $items=new Cart_item();
-     $items->cart_id=$this->cartCookie();
+     $items->cart_id=$this->getCart();
      $items->price=$request->price;
      $items->quantity=$request->quantity;
      $items->totally=$request->price*$request->quantity;
@@ -283,7 +271,7 @@ class CartController extends Controller
     }
     public function hasCart()
     {
-        $cart=\App\Models\Cart::latest()->first();
+        $cart=\App\Models\Cart::where('customer_id','=',\request()->session()->get('customer_id'))->first();
         if ($cart){
             $cart=$cart->loadCount('cartItems');
             return  $cart->cart_items_count;

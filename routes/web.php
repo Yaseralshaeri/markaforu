@@ -107,15 +107,9 @@ Route::get('/r',function () {
         $cart=\App\Models\Cart::where('customer_id','=',\request()->cookie('customer_id'))->first();
         return  $cart->id;
     }*/
-    if(!\request()->hasCookie('customer_id')) {
 
-        return 1;
-    }
-    else{
+    \request()->session()->forget('customer_id');
 
-
-   return \request()->cookie('customer_id');
-    }
 
 });
 

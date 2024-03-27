@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -279,10 +280,10 @@
                 url: '/cart/'+itemId,
                 data: {item_id: itemId}, //set data
                 beforeSend: function () {//We add this before send to disable the button once we submit it so that we prevent the multiple click
-                     },
+                },
                 success: function (response) {//once the request successfully process to the server side it will return result here
                     alert(response.status)
-                  //  getCartProducts();
+                    //  getCartProducts();
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
 

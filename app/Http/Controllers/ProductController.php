@@ -76,7 +76,7 @@ class ProductController extends Controller
 
     public function hasCart()
     {
-        $cart=\App\Models\Cart::latest()->first();
+        $cart=\App\Models\Cart::where('customer_id','=',\request()->session()->get('customer_id'))->first();
         if ($cart){
             $cart=$cart->loadCount('cartItems');
             return  $cart->cart_items_count;
