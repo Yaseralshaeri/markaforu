@@ -96,6 +96,7 @@ namespace App\Models{
  * @property int $has_discount
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $shipping_companies_id
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Cart_item> $cartItems
  * @property-read int|null $cart_items_count
  * @method static \Illuminate\Database\Eloquent\Builder|Cart newModelQuery()
@@ -105,6 +106,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Cart whereCustomerId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Cart whereHasDiscount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Cart whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Cart whereShippingCompaniesId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Cart whereTotally($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Cart whereUpdatedAt($value)
  */
@@ -255,6 +257,52 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Comment
+ *
+ * @property int $id
+ * @property string $comment_tittle
+ * @property int|null $customer_id
+ * @property int|null $product_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment whereCommentTittle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment whereCustomerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment whereProductId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment whereUpdatedAt($value)
+ */
+	class Comment extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Customer
+ *
+ * @property int $id
+ * @property string $customer_name
+ * @property string|null $phone_number
+ * @property string|null $email
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Customer newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Customer newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Customer query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Customer whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Customer whereCustomerName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Customer whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Customer whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Customer wherePhoneNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Customer whereUpdatedAt($value)
+ */
+	class Customer extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\DiscountCode
  *
  * @property int $id
@@ -262,12 +310,14 @@ namespace App\Models{
  * @property float $discount_percentage
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string $expired_at
  * @method static \Illuminate\Database\Eloquent\Builder|DiscountCode newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|DiscountCode newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|DiscountCode query()
  * @method static \Illuminate\Database\Eloquent\Builder|DiscountCode whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DiscountCode whereDiscountCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DiscountCode whereDiscountPercentage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DiscountCode whereExpiredAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DiscountCode whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DiscountCode whereUpdatedAt($value)
  */
@@ -385,12 +435,9 @@ namespace App\Models{
  * @property int $address_id
  * @property string $current_status
  * @property float $order_coast
- * @property string $customer_name
- * @property string $customer_id
- * @property string|null $email
- * @property string|null $phone_number
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $customer_id
  * @method static \Illuminate\Database\Eloquent\Builder|Order newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Order newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Order query()
@@ -398,12 +445,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereCurrentStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereCustomerId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereCustomerName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereOrderCoast($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order wherePaymentMethodId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Order wherePhoneNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereUpdatedAt($value)
  */
 	class Order extends \Eloquent {}
@@ -488,6 +532,7 @@ namespace App\Models{
  * @property-read int|null $sizes_count
  * @property-read \App\Models\Type|null $type
  * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|Product discounts()
  * @method static \Illuminate\Database\Eloquent\Builder|Product newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Product newProducts()
  * @method static \Illuminate\Database\Eloquent\Builder|Product newQuery()
@@ -528,6 +573,31 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Product_Size whereSizeId($value)
  */
 	class Product_Size extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\ShippingCompany
+ *
+ * @property int $id
+ * @property string $company_name
+ * @property string $shipping_coast
+ * @property string $company_logo
+ * @property string $note
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|ShippingCompany newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ShippingCompany newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ShippingCompany query()
+ * @method static \Illuminate\Database\Eloquent\Builder|ShippingCompany whereCompanyLogo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ShippingCompany whereCompanyName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ShippingCompany whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ShippingCompany whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ShippingCompany whereNote($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ShippingCompany whereShippingCoast($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ShippingCompany whereUpdatedAt($value)
+ */
+	class ShippingCompany extends \Eloquent {}
 }
 
 namespace App\Models{

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('customer_id')->unique();
             $table->float('totally')->default(0);
             $table->boolean('has_discount')->default(false);
+            $table->foreignId('shipping_companies_id')->nullable();
             $table->timestamps();
         });
     }

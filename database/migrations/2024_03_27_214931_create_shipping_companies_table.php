@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('shipping_companies', function (Blueprint $table) {
             $table->id();
+            $table->string('company_name');
+            $table->string('shipping_coast');
+            $table->string('company_logo');
+            $table->string('note');
             $table->timestamps();
         });
     }

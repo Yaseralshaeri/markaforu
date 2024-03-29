@@ -55,7 +55,34 @@
 <!-- Single Product Start -->
 
 <div class="container"></div>,
-<div class="container-fluid  py-5">
+<div class="container-fluid  py-5  ">
+{{--
+<div class="container">
+    <div class="wizard-progress">
+        <div class="step complete">
+            Sourcing
+            <div class="node"></div>
+        </div>
+        <div class="step complete">
+            Grading
+            <div class="node"></div>
+        </div>
+        <div class="step in-progress">
+            Treatment
+            <div class="node"></div>
+        </div>
+        <div class="step">
+            Attributes
+            <div class="node"></div>
+        </div>
+        <div class="step">
+            Summary
+            <div class="node"></div>
+        </div>
+    </div>
+
+</div>
+--}}
     <div class="container">
         <div class="progress px-1" style="height: 3px;">
             <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
@@ -64,6 +91,7 @@
             <div class="step-circle" onclick="displayStep(1)">1</div>
             <div class="step-circle" onclick="displayStep(2)">2</div>
             <div class="step-circle" onclick="displayStep(3)">3</div>
+            <div class="step-circle" onclick="displayStep(4)">4</div>
         </div>
     </div>
     <div id="multi-step-form">
@@ -75,13 +103,20 @@
         </div>
         <div class=" step step-3 " >
             @include('frontEnd.checkout.shippingCompanies')
-
+            <div class="container col-md-12 d-flex justify-content-between">
+                <button   type="submit" class="btn border-dark prev-step py-2 px-4 text-uppercase  next-step text-dark">السابق</button>
+                <button   type="submit" class="btn border-success py-2 px-4 text-uppercase w- next-step text-success">  اتمام عملية الطلب والدفع </button>
+            </div>
+        </div>
+        <div class=" step step-4 " >
+            @include('frontEnd.checkout.payment')
             <div class="container col-md-12 d-flex justify-content-between">
                 <button   type="submit" class="btn border-dark prev-step py-2 px-4 text-uppercase  next-step text-dark">السابق</button>
                 <button   type="submit" class="btn border-success py-2 px-4 text-uppercase w- next-step text-success">  اتمام عملية الطلب والدفع </button>
             </div>
         </div>
     </div>
+
 </div>
 
 <!-- FOOTER -->
@@ -133,7 +168,7 @@
     var updateProgressBar;
 
     function displayStep(stepNumber) {
-        if (stepNumber >= 1 && stepNumber <= 3) {
+        if (stepNumber >= 1 && stepNumber <= 4) {
             $(".step-" + currentStep).hide();
             $(".step-" + stepNumber).show();
             currentStep = stepNumber;
@@ -145,7 +180,14 @@
         $('#multi-step-form').find('.step').slice(1).hide();
 
         $(".next-step").click(function() {
-            if (currentStep < 3) {
+            if (currentStep ==1) {
+                $('#cart_totally_box').addClass('d-none');
+            }
+            else{
+                $('#cart_totally_box').removeClass('d-none');
+
+            }
+            if (currentStep < 4) {
                 $(".step-" + currentStep).addClass("animate__animated animate__fadeOutLeft");
                 currentStep++;
                 setTimeout(function() {
@@ -183,174 +225,84 @@
     });
 </script>
 <script>
-    $(document).ready(function () {
-        getCartProducts();
-    });
+    $(document).on('click', '#discountBtn', function (e) {
+        e.preventDefault();
 
-    function getCartProducts()
-    {
-        $.ajax({
-            type: "GET",
-            url: 'show',
-            beforeSend: function () {
-                $('#cart_items').html("");
-                $('#all_cart_totally').html("");
-                $('#cart_totally').html("");
+        var formData = {
+            'discountCode': $('#discountCode').val() ,
+        }
 
-            },
-            success: function (response) {
-                let cartItems='';
-                $.each(response.cart.cart_items, function (key, cartItem) {
-                    cartItems+='<div class="col-md-6 col-4 m-2 col-xl-4 pt-4 py-2 pe-3 ps-3  rounded recomnded-item position-relative bg-soDark">\
-                            <div class="position-absolute rounded-pillborder border-secondary  px-2 py-1" onclick="removeCartItem('+cartItem.id+')" style="top: 4px;left: 4px;" >\
-                                <i class="fa fa-times text-danger"></i>\
-                            </div>\
-                            <div class="row align-items-center  ltr  ">';
-                    $.each(cartItem.product.images[0].path, function (key, image) {
-                        path="{{asset("storage/")}}";
-                        cartItems+='<div class="col-6  pb-3 border-5 mt-3 " style="height: 11rem;width: 11rem;">\
-                                   <img src="'+path+'/'+image+'" class="img-fluid rounded-circle w-100 mt-1"style="border: 5px solid black;" alt="">\
-                                    </div>';
-                    });
-                    cartItems+='<div class="col-6 brands rtl">\
-                        <h6 class="text-white product-name text-end pe-2">'+cartItem.product.product_name+'</h6>\
-                          <div class="py-1">\
-                            <span class="text-primaryfs-7 fw-bold">  ر.س '+cartItem.price+'</span>\
-                            <del class="text-danger fs-8 p-1">٦٩ ر.س</del>\
-                        </div>\
-         <div class="d-flex justify-content-between flex-lg-wrap px-md py-2">\
-                        <div class="d-flex justify-content-end my-2">\
-                        <span class="text-white"> اللون :</span>\
-                    <i class="checkmark mx-2"style="background:'+cartItem.item_color+';border-radius: 50%;width: 25px;height: 25px;"></i>\
-                </div>\
-                    <div class="d-flex justify-content-start my-2">\
-                        <span class="text-white"> المقاس :</span>\
-                        <a class="mx-2 bg-secondary pt-1" style="background:#f1f1f1;border-radius: 50%;width:34px;height:34px;text-align: center"><span class="checkmark ">'+cartItem.item_size+'</span></a>\
-                    </div>\
-                </div>\
-                    <div class="py-1 d-flex">\
-                        <span class="text-white">الكمية  :</span>\
-                        <div class="input-group quantity  ms-3 me-3" style="width: 100px;">\
-                            <div class="input-group-btn">\
-                                <button class="btn btn-sm btn-minus rounded-circle bg-secondary px-2 py-1"  onclick="updateCartItem('+cartItem.id+',0,'+cartItem.quantity+')">\
-                                    <i class="fa text-white fa-minus"></i>\
-                                </button>\
-                            </div>\
-                            <input type="text" id="quantity"  class="form-control form-control-sm text-center bg-soDark text-white border-0" value="'+cartItem.quantity+'">\
-                                <div class="input-group-btn">\
-                                    <button class="btn btn-sm btn-plus rounded-circle bg-secondary px-2 py-"  onclick="updateCartItem('+cartItem.id+',1,'+cartItem.quantity+')">\
-                                        <i class="fa text-white fa-plus"></i>\
-                                    </button>\
-                                </div>\
-                        </div>\
-                    </div>\
-                    <div class="py-1">\
-                        <span class="text-white">  الاجمالي :</span>\
-                        <span class="text-white fs-7 fw-bold"> <span>'+cartItem.totally+'</span>   ر.س</span>\
-                    </div>\
-                    </div>\
-                    </div>\
-                </div>';
-                });
-                $('#cart_totally').html(response.cart.totally+' ر.س ');
-                $('#all_cart_totally').html(response.cart.totally+67 +' ر.س ');
-                $('#cart_items').html(cartItems);
 
-                setTimeout(function () {
-                    applyQuanTity()
-                },30);
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                $('#cart_items').html("لاتوجد منتجات مضافة حاليا");
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
 
-    }
+        $.ajax({
+            url: "/cart/discount",
+            type: "POST",
+            data:formData,// get the route value// our serialized array data for server side
+            beforeSend: function () {//We add this before send to disable the button once we submit it so that we prevent the multiple click
 
-    function removeCartItem(itemId)
-    {
-        if(confirm('Are you sure you want to delete this data?')) {
+            },
+            success: function (response) {//once the request successfully process to the server side it will return result here
+                if(response.status==200){
+                    alert(response.message)
+                    $('#all_cart_totally').html('');
+                    $('#all_cart_totally').html(response.cartTotally);
+                    $('#all_cart_totally-2').html('');
+                    $('#all_cart_totally-2').html(response.cartTotally);
+                }
+                else{
+                    alert(response.message)
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                // You can put something here if there is an error from submitted request
+            }
+        });
+
+    });
+
+
+    function setShippingCompany(shippingCompanyId){
+
+            var formData = {
+                'shipping_company_id':shippingCompanyId ,
+            }
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
             $.ajax({
-                type: "DELETE", //we are using GET method to get data from server side
-                url: '/cart/'+itemId,
-                data: {item_id: itemId}, //set data
+                url: "/cart/shipping",
+                type: "POST",
+                data:formData,// get the route value// our serialized array data for server side
                 beforeSend: function () {//We add this before send to disable the button once we submit it so that we prevent the multiple click
+
                 },
                 success: function (response) {//once the request successfully process to the server side it will return result here
-                    alert(response.status)
-                    //  getCartProducts();
+                    if(response.status==200){
+                        $('#all_cart_totally').html('');
+                        $('#all_cart_totally').html(response.cartTotally);
+                        $('#all_cart_totally-2').html('');
+                        $('#all_cart_totally-2').html(response.cartTotally);
+                    }
+                    else{
+                        alert(response.message)
+                    }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-
+                    // You can put something here if there is an error from submitted request
                 }
             });
-
-        }
-
-
     }
 
 
-    function updateCartItem(itemId,operation,quantity)
-    {
-        if(operation===0){
-            --quantity;
-        }
-        if(operation===1){
-            ++quantity;
-
-        }
-        var formData = {
-            'quantity':quantity,
-        }
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            type: "PUT", //we are using GET method to get data from server side
-            url: '/cart/' +itemId,
-            data: formData, //set data
-            beforeSend: function () {//We add this before send to disable the button once we submit it so that we prevent the multiple click
-                //   $('#quantity').disabled()
-            },
-            success: function (response) {//once the request successfully process to the server side it will return result here
-                alert(response.status)
-                getCartProducts();
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-
-            }
-        });
-
-
-
-    }
-</script>
-<script>
-    function applyQuanTity(){
-// Product Quantity
-        $('.quantity button').on('click', function () {
-            var button = $(this);
-            var oldValue = button.parent().parent().find('input').val();
-            if (button.hasClass('btn-plus')) {
-                var newVal = parseFloat(oldValue) + 1;
-            } else {
-                if (oldValue > 0) {
-                    var newVal = parseFloat(oldValue) - 1;
-                } else {
-                    newVal = 0;
-                }
-            }
-            button.parent().parent().find('input').val(newVal);
-        });
-    }
 
 </script>
+
+
 </html>

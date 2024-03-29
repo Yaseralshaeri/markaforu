@@ -37,6 +37,8 @@ Route::get('/product/{productId}/{productName}',[\App\Http\Controllers\ProductCo
  *****/
 Route::post('/cart/store',[\App\Http\Controllers\CartController::class,'store'])->name('storeCart');
 Route::post('/cart/discount',[\App\Http\Controllers\CartController::class,'discount']);
+Route::post('/cart/shipping',[\App\Http\Controllers\CartController::class,'shippingCompany']);
+
 Route::get('/cart',[\App\Http\Controllers\CartController::class,'index']);
 Route::get('cart/show',[\App\Http\Controllers\CartController::class,'getCartItems']);
 Route::delete('/cart/{id}',[\App\Http\Controllers\CartController::class,'destroy']);
@@ -108,8 +110,21 @@ Route::get('/r',function () {
         return  $cart->id;
     }*/
 
-    \request()->session()->forget('customer_id');
+  // return \request()->session()->get('customer_id');
 
+    return  \App\Models\Cart::with([
+        'cartItems'=>function($query){
+            $query->select('cart_id','product_id','id','quantity','price','item_size','item_color')->sum('totally');
+        },
+        'cartItems.product'=>function($query){
+            $query->select('id','product_name');
+        },
+        'cartItems.product.images'=>function($query){
+            $query->select('product_id','path')
+                ->where('showed','=','1');
+
+        },
+    ])->where('customer_id','=',\request()->session()->get('customer_id'))->withSum('cartItems','totally')->get();
 
 });
 

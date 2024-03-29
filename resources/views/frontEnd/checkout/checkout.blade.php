@@ -56,7 +56,6 @@
         <div class="d-flex justify-content-between mt-5 py-4">
             <button style="width: 40%"  type="submit" class="btn border-dark prev-step py-2 px-5  text-uppercase  next-step text-dark">السابق</button>
             <button   style="width: 40%"  type="submit" class="btn border-secondary  py-2 px-5 text-uppercase  next-step text-secondary">التالي</button>
-
         </div>
     </div>
 <!-- Checkout Page End -->

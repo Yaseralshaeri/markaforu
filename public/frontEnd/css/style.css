@@ -1111,7 +1111,7 @@ section > div {
      cursor: not-allowed;
  }
 }
-label {
+.label-shipping {
     height: 100%;
     display: block;
     background: white;
@@ -1160,4 +1160,164 @@ p {
     section {
         flex-direction: column;
     }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.wizard-progress {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    position: relative;
+}
+.wizard-progress .step {
+    display: table-cell;
+    text-align: center;
+    vertical-align: top;
+    overflow: visible;
+    position: relative;
+    font-size: 14px;
+    color: #fff;
+    font-weight: bold;
+}
+.wizard-progress .step:not(:last-child):before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 37px;
+    background-color: #fff;
+    height: 6px;
+    width: 100%;
+}
+.wizard-progress .step .node {
+    display: inline-block;
+    border: 6px solid #fff;
+    background-color: #fff;
+    border-radius: 18px;
+    height: 18px;
+    width: 18px;
+    position: absolute;
+    top: 25px;
+    left: 50%;
+    margin-left: -18px;
+}
+.wizard-progress .step.complete:before {
+    background-color: #07c;
+}
+.wizard-progress .step.complete .node {
+    border-color: #07c;
+    background-color: #07c;
+}
+.wizard-progress .step.complete .node:before {
+    font-family: FontAwesome;
+    content: "";
+}
+.wizard-progress .step.in-progress:before {
+    background: #07c;
+    background: -moz-linear-gradient(left, #07c 0%, #fff 100%);
+    background: -webkit-linear-gradient(left, #07c 0%, #fff 100%);
+    background: linear-gradient(to right, #07c 0%, #fff 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#07c", endColorstr="#fff",GradientType=1);
+}
+.wizard-progress .step.in-progress .node {
+    border-color: #07c;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*html {
+    background: linear-gradient(to bottom, #4678f3, #64d6ee);
+    font-size: 62.5%;
+    height: 100%;
+    display: flex;
+}
+body {
+    width: 100%;
+    margin: auto;
+}*/
+
+
+
+
+.cardStyle {
+    border-radius:12px;
+}
+
+.selectBox {
+    border:1px solid #222;
+    width:24px;
+    height:24px;
+    text-align:center;
+    border-radius:50%;
+    line-height:22px;
+    font-size:12px;
+}
+.selected {
+    color:#fff;
+    border:1px solid #f7f7f7 !important;
+}
+small {
+    font-size:12px;
+    letter-spacing:1px;
+}
+label,
+h6 {
+    font-size:12px;
+    text-transform : uppercase;
+    color:#aaaaaa
+}
+a.btn {
+    line-height:32px;
+}
+a.btn,
+button.btn,
+select.form-control,
+input.form-control {
+    height:48px;
+    border-radius:2px;
 }

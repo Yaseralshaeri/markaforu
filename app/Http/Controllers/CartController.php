@@ -7,6 +7,7 @@ use App\Models\Brand;
 use App\Models\Cart;
 use App\Models\Cart_item;
 use App\Models\DiscountCode;
+use App\Models\ShippingCompany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Validator;
@@ -25,7 +26,7 @@ class CartController extends Controller
      */
     public function index()
     {
-        return view('cart',['categories'=> $this->getCategories(),'recommendedProducts'=>$this->getRecommendedProducts(),'collections'=> $this->geCollections(),'brands'=>$this->getBrands(),'hasCart'=>$this->hasCart(),'getCartItems'=>$this->getCartItemsJs(),'getCart'=>$this->getCartItems()]);
+        return view('cart',['categories'=> $this->getCategories(),'collections'=> $this->geCollections(),'brands'=>$this->getBrands(),'hasCart'=>$this->hasCart(),'getCart'=>$this->getCartItems()]);
 
     }
     public function getBrands():\Illuminate\Database\Eloquent\Collection
@@ -37,17 +38,7 @@ class CartController extends Controller
         return  \App\Models\Collection::get(['collection_name','id']);
     }
 
-    public function getRecommendedProducts()
-    {
-        /* return Product::with([
-         'images'=>function($query){
-             $query->select('product_id','path')
-                 ->where('showed','=','1');
-         }
-     ])->take(6)->select(['id','product_name','old_price','new_price','keyword'])->paginate(3);*/
-        return $this->productRepository->getProducts('RecommendedProducts')->paginate(3);
 
-    }
 
     public function getCategories()
     {
@@ -64,7 +55,7 @@ class CartController extends Controller
     {
         return  \App\Models\Cart::with([
             'cartItems'=>function($query){
-                $query->select('cart_id','product_id','id','totally','quantity','price','item_size','item_color');
+                $query->select('cart_id','product_id','id','totally','quantity','price','item_size','item_color')->sum('totally');
             },
             'cartItems.product'=>function($query){
                 $query->select('id','product_name');
@@ -74,26 +65,9 @@ class CartController extends Controller
                     ->where('showed','=','1');
 
             },
-        ])->where('customer_id','=',\request()->session()->get('customer_id'))->get();
+        ])->where('customer_id','=',\request()->session()->get('customer_id'))->withSum('cartItems','totally')->get();
     }
 
-    public function getCartItemsJs()
-    {
-        return \App\Models\Cart::with([
-            'cartItems'=>function($query){
-                $query->select('cart_id','product_id','id','totally','quantity','price','item_size','item_color');
-            },
-            'cartItems.product'=>function($query){
-                $query->select('id','product_name');
-            },
-            'cartItems.product.images'=>function($query){
-                $query->select('product_id','path')
-
-                ;
-            },
-        ])->where('customer_id','=',\request()->session()->get('customer_id'))->get();
-
-    }
 
     public function getCart()
     {
@@ -269,6 +243,37 @@ class CartController extends Controller
 
 
     }
+
+    public function setShippingCompany($shippingCompanyId)
+    {
+        $cart=Cart::find($this->getCart());
+        $shippingCompany=ShippingCompany::find($shippingCompanyId);
+        $cart->totally= $cart->totally+$shippingCompany->shipping_coast;
+        $cart->shipping_companies_id=$shippingCompany->id;
+        if($cart->save()) {
+            return response()->json([
+                'status' => 200,
+                'cartTotally' => $cart->totally
+
+            ]);
+        }
+    }
+
+    public function shippingCompany(Request $request)
+    {
+        $cart=Cart::find($this->getCart());
+        if($cart->shipping_companies_id){
+            $shippingCompany=ShippingCompany::find($cart->shipping_companies_id);
+            $cart->totally= $cart->totally-$shippingCompany->shipping_coast;
+            if ($cart->save()) {
+              return  $this->setShippingCompany($request->shipping_company_id);
+            }
+        }
+       else{
+          return $this->setShippingCompany($request->shipping_company_id);
+       }
+    }
+
     public function hasCart()
     {
         $cart=\App\Models\Cart::where('customer_id','=',\request()->session()->get('customer_id'))->first();

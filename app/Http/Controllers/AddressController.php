@@ -6,6 +6,7 @@ use App\Models\address;
 use App\Models\Brand;
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\ShippingCompany;
 use Illuminate\Http\Request;
 
 class AddressController extends Controller
@@ -15,7 +16,7 @@ class AddressController extends Controller
      */
     public function index()
     {
-        return view('checkout',['categories'=> $this->getCategories(),'collections'=> $this->geCollections(),'brands'=>$this->getBrands(),'getCart'=>$this->getCart(),'hasCart'=>$this->hasCart()]);
+        return view('checkout',['categories'=> $this->getCategories(),'collections'=> $this->geCollections(),'brands'=>$this->getBrands(),'getCart'=>$this->getCart(),'hasCart'=>$this->hasCart(),'shippingCompanies'=>$this->getShippingCompanies()]);
 
     }
     public function getBrands():\Illuminate\Database\Eloquent\Collection
@@ -51,7 +52,7 @@ class AddressController extends Controller
                     ->where('showed','=','1');
 
             },
-        ])->where('customer_id','=',\request()->session()->get('customer_id'))->get();
+        ])->where('customer_id','=',\request()->session()->get('customer_id'))->withSum('cartItems','totally')->get();
 
     }
     /**
@@ -143,5 +144,12 @@ class AddressController extends Controller
     {
 
         return $this->hasCart();
+    }
+
+
+    public function getShippingCompanies()
+    {
+
+        return ShippingCompany::all();
     }
 }
