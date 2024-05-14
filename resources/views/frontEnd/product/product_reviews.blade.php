@@ -10,42 +10,8 @@
     </nav>
     <div class="tab-content mb-5">
 
-        <div class="tab-pane active" id="nav-mission" role="tabpanel" aria-labelledby="nav-mission-tab">
-            <div class="d-flex">
-                <img src="img/avatar.jpg" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt="">
-                <div class="">
-                    <p class="mb-2" style="font-size: 14px;">April 12, 2024</p>
-                    <div class="d-flex justify-content-between">
-                        <h5>Jason Smith</h5>
-                        <div class="d-flex mb-3">
-                            <i class="fa fa-star text-secondary"></i>
-                            <i class="fa fa-star text-secondary"></i>
-                            <i class="fa fa-star text-secondary"></i>
-                            <i class="fa fa-star text-secondary"></i>
-                            <i class="fa fa-star"></i>
-                        </div>
-                    </div>
-                    <p>The generated Lorem Ipsum is therefore always free from repetition injected humour, or non-characteristic
-                        words etc. Susp endisse ultricies nisi vel quam suscipit </p>
-                </div>
-            </div>
-            <div class="d-flex">
-                <img src="img/avatar.jpg" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt="">
-                <div class="">
-                    <p class="mb-2" style="font-size: 14px;">April 12, 2024</p>
-                    <div class="d-flex justify-content-between">
-                        <h5>Sam Peters</h5>
-                        <div class="d-flex mb-3">
-                            <i class="fa fa-star text-secondary"></i>
-                            <i class="fa fa-star text-secondary"></i>
-                            <i class="fa fa-star text-secondary"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                        </div>
-                    </div>
-                    <p class="text-dark">The generated Lorem Ipsum is therefore always free from repetition injected humour, or non-characteristic
-                        words etc. Susp endisse ultricies nisi vel quam suscipit </p>
-                </div>
+        <div  class="tab-pane active" id="nav-mission " role="tabpanel" aria-labelledby="nav-mission-tab">
+            <div  id="show_comments">
             </div>
         </div>
         <div class="tab-pane" id="nav-vision" role="tabpanel">
@@ -56,22 +22,22 @@
         </div>
     </div>
 </div>
-<form action="#">
+<form   >
     <h4 class="mb-5 fw-bold">Leave a Reply</h4>
     <div class="row g-4">
         <div class="col-lg-6">
             <div class="border-bottom rounded">
-                <input type="text" class="form-control border-0 me-4" placeholder="Yur Name *">
+                <input type="text" id="user_name" name="user_name" class="form-control border-0 me-4" placeholder="Yur Name *">
             </div>
         </div>
         <div class="col-lg-6">
             <div class="border-bottom rounded">
-                <input type="email" class="form-control border-0" placeholder="Your Email *">
+                <input type="email" id="user_email" name="user_email" class="form-control border-0" placeholder="Your Email *">
             </div>
         </div>
         <div class="col-lg-12">
             <div class="border-bottom rounded my-4">
-                <textarea name="" id="" class="form-control border-0" cols="30" rows="8" placeholder="Your Review *" spellcheck="false"></textarea>
+                <textarea id="comment_tittle" class="form-control border-0"  name="comment_tittle" cols="30" rows="8" placeholder="Your Review *" spellcheck="false"></textarea>
             </div>
         </div>
         <div class="col-lg-12">
@@ -86,7 +52,7 @@
                         <i class="fa fa-star"></i>
                     </div>
                 </div>
-                <a href="#" class="btn border border-secondary text-dark rounded-pill px-4 py-3"> Post Comment</a>
+                <button id="sent_comment_btn"  class="btn border border-secondary text-dark rounded-pill px-4 py-3"> Post Comment</button>
             </div>
         </div>
     </div>

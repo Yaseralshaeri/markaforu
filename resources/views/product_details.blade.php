@@ -116,6 +116,77 @@
 
 </script>
 <script>
+    function getComments(){
+        $.ajax({
+            type: "GET",
+            url: '/product/showComment/',
+            data:{'product_id':$('#product_id').attr("data_value")},
+            beforeSend: function () {
+                $('#show_comments').html("");
+            },
+            success: function (response) {
+                let comments='';
+                $.each(response.comments, function (key, comment) {
+                comments+='<div class="d-flex">\
+                <img src="img/avatar.jpg" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt="">\
+                <div class="">\
+                    <p class="mb-2" style="font-size: 14px;">'+comment.created_at+'</p>\
+                    <div class="d-flex justify-content-between">\
+                        <h5>'+comment.customer.email+'</h5>\
+                        <div class="d-flex mb-3">\
+                            <i class="fa fa-star text-secondary"></i>\
+                            <i class="fa fa-staxt-secondary"></i>\
+                            <i class="fa fa-star texr text-secondary"></i>\
+                            <i class="fa fa-star tet-secondary"></i>\
+                            <i class="fa fa-star"></i>\
+                        </div>\
+                    </div>\
+                    <p> '+comment.comment_tittle+' </p>\
+               </div>\
+               </div>';
+               $('#show_comments').html(comments);
+                });
+            }
+        });   
+       
+    }
+    $(document).ready(function() {
+
+        getComments()
+
+        $('#sent_comment_btn').on("click",function(event) {
+            event.preventDefault();
+            alert('!');
+           var formData = {
+            'user_name':'i',
+            'user_email': $('#user_email').val(),
+            'comment_tittle': $('#comment_tittle').val(),
+             'product_id':$('#product_id').attr("data_value")
+           };
+           $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: '/product/setComment', // افتراضيا، سيكون هذا هو المسار إلى روت Laravel الخاص بالتحميل
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                if(response.status==200)
+                    alert(response.message);
+                     getComments();
+                
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                   alert('respxxxxxxxxxxxx')
+
+                }
+            });
+        });
+    });
+</script>
+<script>
     $('.product-main-image').zoom({url: $('.product-main-image img').attr('data-BigImgSrc')});
 
 

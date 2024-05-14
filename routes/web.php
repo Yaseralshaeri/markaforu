@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\shopController;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
@@ -30,6 +31,10 @@ Route::get('/advertisement/{advertisementId}/{advertisementName}',[shopControlle
 Route::get('/char/{characteristicId}/{characteristicName}',[shopController::class,'Index']);
 
 Route::get('/product/{productId}/{productName}',[\App\Http\Controllers\ProductController::class,'index']);
+
+//ziad comment
+Route::post('/product/setComment',[CommentController::class,'store'])->name('product.comment.stor');
+Route::get('/product/showComment',[CommentController::class,'getComments']);
 
 /******
  * Cart routes start
